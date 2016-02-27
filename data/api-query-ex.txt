@@ -1,0 +1,2 @@
+"https://api.propublica.org/campaign-finance/v1/2016/candidates/search.json?query=Sanders"
+  -H "X-API-Key: 6PV7DzVbl5ji6l3hAYPh3ElWARo5E9I78KMvfTJi"
