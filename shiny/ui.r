@@ -11,7 +11,7 @@ shinyUI(
     ),
   
     mainPanel(
-      plotOutput('plot')
+      
     )
   )
 )
