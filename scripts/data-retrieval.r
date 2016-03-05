@@ -29,7 +29,7 @@ candidate_ids <- c("P60007168",
 
 # Takes an FEC ID in, polls Propublica API for current data and writes 
 # to a .csv file in the data/ directory.
-getCandidateData <- function(id) {
+queryCandidateData <- function(id) {
   
   query <- paste0(base_url, cycle, '/', 'candidates', '/', id, ".json")
   response <- GET(query, add_headers('X-API-Key' = '6PV7DzVbl5ji6l3hAYPh3ElWARo5E9I78KMvfTJi'))
@@ -42,16 +42,18 @@ getCandidateData <- function(id) {
   
 }
 
-lapply(candidate_ids, getCandidateData)
+lapply(candidate_ids, queryCandidateData)
 
 # This will only work if ran on the same date as when the data were
 # queried and saved originally. Copy this code and alter it to read
 # data from a specific date.
-file <- paste0('data/', Sys.Date(), '_', candidate_ids[1], '.csv')
-candidate_data <- read.csv(file)
-for (i in 2:length(candidate_ids)) {
-  file <- paste0('data/', Sys.Date(), '_', candidate_ids[i], '.csv')
-  temp_frame <- read.csv(file)
-  candidate_data <- rbind(candidate_data, temp_frame)
+getCandidateData <- function(date) {
+  file <- paste0('data/', date, '_', candidate_ids[1], '.csv')
+  candidate_data <- read.csv(file)
+  for (i in 2:length(candidate_ids)) {
+    file <- paste0('data/', date, '_', candidate_ids[i], '.csv')
+    temp_frame <- read.csv(file)
+    candidate_data <- rbind(candidate_data, temp_frame)
+  }
+  return(candidate_data)
 }
-
