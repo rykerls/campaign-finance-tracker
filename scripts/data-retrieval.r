@@ -21,10 +21,16 @@ base_url <- 'https://api.propublica.org/campaign-finance/v1/'
 
 # FEC ID's for some of the current candidates. Add to this list to begin
 # collecting data on a new candidate.
-candidate_ids <- c("P60007168",
-                   "P00003392",
-                   "P80001571",
-                   "P60006111")
+candidate_ids <- c('P60007168',
+                   'P00003392',
+                   'P80001571',
+                   'P60006111')
+
+# Come up with a better means to create this list....
+state_path <- c('/candidates/P60007168.json',
+                '/candidates/P00003392.json',
+                '/candidates/P80001571.json',
+                '/candidates/P60006111.json')
 
 # Takes an FEC ID in, polls Propublica API for current data and writes 
 # to a .csv file in the data/ directory.
@@ -56,6 +62,21 @@ queryCampaignData <- function(campaign_cycle) {
   
 }
 
+# Queries data from the Propublica campaign finance API for results
+# based on state and saves it to a .csv file in the data/ directory.
+queryStateData <- function(campaign_cycle, state) {
+  
+  query <- paste0(base_url, campaign_cycle, '/president/states/', state, '.json')
+  response <- GET(query, add_headers('X-API-Key' = '6PV7DzVbl5ji6l3hAYPh3ElWARo5E9I78KMvfTJi'))
+  data <- as.data.frame(fromJSON(content(response, type='text', encoding = 'UTF-8'))) %>% 
+    flatten()
+  df <- data.frame(lapply(data, as.character), stringsAsFactors = FALSE)
+  
+  file_addr <- paste0('data/', 'state', '_', state, '_', campaign_cycle, '-', Sys.Date(), '.csv')
+  write.csv(df, file_addr)
+  
+}
+
 # Don't use this funciton, use getCampaignData instead. 
 getCandidateData <- function(date) {
   
@@ -81,4 +102,16 @@ getCampaignData <- function(campaign_cycle, date, cand_ids) {
   subset(results.candidate_id %in% cand_ids)
   
   return(campaign_data)
+}
+
+# Returns a data frame with information on canidates in candidate_ids
+# for state.
+getStateData <- function(campaign_cycle, date, state) {
+  
+  file <- paste0('data/', 'state', '_', state, '_', campaign_cycle, '-', date, '.csv')
+  
+  state_data <- read.csv(file) %>% 
+    subset(results.candidate %in% state_path)
+  
+  return(state_data)
 }
