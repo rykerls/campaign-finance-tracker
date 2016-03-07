@@ -2,6 +2,7 @@ require(plotly)
 require(dplyr)
 
 source('scripts/data-retrieval.r')
+source('scripts/utility.r')
 
 contribution_bar_chart <- function(id) {
   campaign <- getCampaignData('2016', '2016-03-05', candidate_ids) %>% 
@@ -21,7 +22,7 @@ contribution_bar_chart <- function(id) {
   
   candidate %>% 
     plot_ly(type = 'bar', 
-            x = colnames(selected_columns), 
+            x = prettify_results(colnames(selected_columns)), 
             y = as.numeric(selected_columns[1,])) %>% 
     layout(title = campaign$results.name,
            xaxis = list(
