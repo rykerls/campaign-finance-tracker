@@ -80,7 +80,7 @@ queryStateData <- function(campaign_cycle, state) {
 # Don't use this funciton, use getCampaignData instead. 
 getCandidateData <- function(date) {
   
-  file <- paste0('data/', date, '_', candidate_ids[0], '.csv')
+  file <- paste0('data/', date, '_', candidate_ids[1], '.csv')
   candidate_data <- read.csv(file)
   
   for (i in 2:length(candidate_ids)) {
