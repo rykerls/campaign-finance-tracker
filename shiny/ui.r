@@ -1,5 +1,7 @@
 library(shiny)
 
+source('../scripts/data-retrieval.r')
+
 shinyUI(
   fluidPage(
   
@@ -11,10 +13,18 @@ shinyUI(
   
     mainPanel(
       tabsetPanel(
-        tabPanel('Candidate 1'),
-        tabPanel('Candidate 2'),
-        tabPanel('Candidate 3'),
-        tabPanel('Candidate 4'),
+        tabPanel('Bernie Sanders',
+                 plotlyOutput('plot1')
+                 ),
+        tabPanel('Hillary Clinton',
+                 plotlyOutput('plot2')
+                 ),
+        tabPanel('Donald J. Trump',
+                 plotlyOutput('plot3')
+                 ),
+        tabPanel('Ted Cruz',
+                 plotlyOutput('plot4')
+                 ),
         tabPanel('Overview Data?')
       )
     )

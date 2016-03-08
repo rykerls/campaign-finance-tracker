@@ -15,3 +15,4 @@ prettify_results <- function(categories) {
   categories <- as.vector(sapply(categories, .simpleCap))
   return(categories)
 }
+

@@ -80,11 +80,11 @@ queryStateData <- function(campaign_cycle, state) {
 # Don't use this funciton, use getCampaignData instead. 
 getCandidateData <- function(date) {
   
-  file <- paste0('data/', date, '_', candidate_ids[1], '.csv')
+  file <- paste0('../data/', date, '_', candidate_ids[1], '.csv')
   candidate_data <- read.csv(file)
   
   for (i in 2:length(candidate_ids)) {
-    file <- paste0('data/', date, '_', candidate_ids[i], '.csv')
+    file <- paste0('../data/', date, '_', candidate_ids[i], '.csv')
     temp_frame <- read.csv(file)
     candidate_data <- rbind(candidate_data, temp_frame)
   }
@@ -96,7 +96,7 @@ getCandidateData <- function(date) {
 # containing data about the presidential candidates in cand_ids.
 getCampaignData <- function(campaign_cycle, date, cand_ids) {
  
-  file <- paste0('data/', 'totals_', campaign_cycle, '-', date, '.csv')
+  file <- paste0('../data/', 'totals_', campaign_cycle, '-', date, '.csv')
   
   campaign_data <- read.csv(file) %>% 
   subset(results.candidate_id %in% cand_ids)
@@ -108,7 +108,7 @@ getCampaignData <- function(campaign_cycle, date, cand_ids) {
 # for state.
 getStateData <- function(campaign_cycle, date, state) {
   
-  file <- paste0('data/', 'state', '_', state, '_', campaign_cycle, '-', date, '.csv')
+  file <- paste0('../data/', 'state', '_', state, '_', campaign_cycle, '-', date, '.csv')
   
   state_data <- read.csv(file) %>% 
     subset(results.candidate %in% state_path)
