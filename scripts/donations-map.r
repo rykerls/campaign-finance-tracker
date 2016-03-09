@@ -6,7 +6,8 @@
 # INFO-498F
 # Final Project
 ########################
-#This script retruns a map of the US with the given canidates donations from each state. It can also return a map with each state displaying the canidate who won in their state.
+#This script retruns a map of the US with the given canidates donations from each state. 
+#It can also return a map with each state displaying the canidate who won in their state.
 
 #Loading needed packages.
 library(plotly)
