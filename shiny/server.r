@@ -1,4 +1,5 @@
 library(shiny)
+library(plotly)
 
 source('../scripts/data-retrieval.r')
 source('../scripts/contributions-bar-chart.r')

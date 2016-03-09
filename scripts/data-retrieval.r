@@ -44,7 +44,7 @@ queryCandidateData <- function(id) {
           flatten()
   df <- data.frame(lapply(data, as.character), stringsAsFactors = FALSE)
   
-  file_addr <- paste0('data/', id, '.csv')
+  file_addr <- paste0('../data/', id, '.csv')
   write.csv(df, file_addr)
   
 }
@@ -59,7 +59,7 @@ queryCampaignData <- function(campaign_cycle) {
     flatten()
   df <- data.frame(lapply(data, as.character), stringsAsFactors = FALSE)
   
-  file_addr <- paste0('data/', 'totals_', campaign_cycle, '.csv')
+  file_addr <- paste0('../data/', 'totals_', campaign_cycle, '.csv')
   write.csv(df, file_addr)
   
 }
@@ -74,7 +74,7 @@ queryStateData <- function(campaign_cycle, state) {
     flatten()
   df <- data.frame(lapply(data, as.character), stringsAsFactors = FALSE)
   
-  file_addr <- paste0('data/', state, '_', campaign_cycle, '.csv')
+  file_addr <- paste0('../data/', state, '_', campaign_cycle, '.csv')
   write.csv(df, file_addr)
   
 }
@@ -82,11 +82,11 @@ queryStateData <- function(campaign_cycle, state) {
 # Don't use this funciton, use getCampaignData instead. 
 getCandidateData <- function(candidate_list) {
   
-  file_addr <- paste0('data/', candidate_list[1], '.csv')
+  file_addr <- paste0('../data/', candidate_list[1], '.csv')
   candidate_data <- read.csv(file_addr)
   
   for (i in 2:length(candidate_list)) {
-    file_addr <- paste0('/data/', candidate_list[i], '.csv')
+    file_addr <- paste0('../data/', candidate_list[i], '.csv')
     temp_frame <- read.csv(file_addr)
     candidate_data <- rbind(candidate_data, temp_frame)
   }

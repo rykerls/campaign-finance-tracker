@@ -8,7 +8,7 @@ contribution_bar_chart <- function(id) {
   campaign <- getCampaignData('2016', candidate_ids) %>% 
     filter(results.candidate_id == id)
   
-  candidate <- getCandidateData(can) %>% 
+  candidate <- getCandidateData(candidate_ids) %>% 
     filter(results.id == id)
   
   joined <- left_join(candidate, campaign, by = c('results.id' = 'results.candidate_id', 'cycle'))
