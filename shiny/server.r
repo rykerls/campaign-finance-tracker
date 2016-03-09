@@ -20,4 +20,8 @@ function(input, output) {
   output$plot4 <- renderPlotly({
     contribution_bar_chart(candidate_ids[4])
   })
+  
+  output$combined_bar <- renderPlotly({
+    contribution_bar_chart(candidate_ids, stack = TRUE)
+  })
 }

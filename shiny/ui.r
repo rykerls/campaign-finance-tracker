@@ -26,7 +26,9 @@ shinyUI(
         tabPanel('Ted Cruz',
                  plotlyOutput('plot4')
                  ),
-        tabPanel('Overview Data?')
+        tabPanel('Overview Data?',
+                 plotlyOutput('combined_bar')
+                 )
       )
     )
   )
