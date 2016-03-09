@@ -109,7 +109,7 @@ getCampaignData <- function(campaign_cycle, cand_ids) {
 # for state_abb. state_abb must be an all-uppercase two letter state code.
 getStateData <- function(campaign_cycle, state_abb) {
   
-  file_addr <- paste0('../data/', state_abb, '_', campaign_cycle, '-', '.csv')
+  file_addr <- paste0('../data/', state_abb, '_', campaign_cycle, '.csv')
   
   state_data <- read.csv(file_addr) %>% 
     subset(results.candidate %in% state_path)
@@ -120,11 +120,11 @@ getStateData <- function(campaign_cycle, state_abb) {
 # Aggregates data from all 50 states for even numbered year campaign_cycle 
 # and returns a dataframe. 
 aggStateData <- function(campaign_cycle) {
-  agg_data <- getStateData(state.abb[1])
+  agg_data <- getStateData(campaign_cycle, state.abb[1])
   
   for (i in 2:length(state.abb)) {
-    temp_frame <- getStateData(state.abb[i])
-    state_data <- rbind(state_data, temp_frame)
+    temp_frame <- getStateData(campaign_cycle, state.abb[i])
+    agg_data <- rbind(agg_data, temp_frame)
   }
   
   return(agg_data)
