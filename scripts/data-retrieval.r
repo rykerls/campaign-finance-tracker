@@ -26,8 +26,6 @@ candidate_ids <- c('P60007168',
                    'P80001571',
                    'P60006111')
 
-campaign_cycles <- c('2016')
-
 # Come up with a better means to create this list....
 state_path <- c('/candidates/P60007168.json',
                 '/candidates/P00003392.json',
@@ -79,7 +77,8 @@ queryStateData <- function(campaign_cycle, state) {
   
 }
 
-# Don't use this funciton, use getCampaignData instead. 
+# Returns a data frame containing data about candidates in candidate_list
+# from 2016.
 getCandidateData <- function(candidate_list) {
   
   file_addr <- paste0('../data/', candidate_list[1], '.csv')
@@ -107,13 +106,26 @@ getCampaignData <- function(campaign_cycle, cand_ids) {
 }
 
 # Returns a data frame with information on canidates in candidate_ids
-# for state.
-getStateData <- function(campaign_cycle, state) {
+# for state_abb. state_abb must be an all-uppercase two letter state code.
+getStateData <- function(campaign_cycle, state_abb) {
   
-  file_addr <- paste0('../data/', state, '_', campaign_cycle, '-', '.csv')
+  file_addr <- paste0('../data/', state_abb, '_', campaign_cycle, '-', '.csv')
   
   state_data <- read.csv(file_addr) %>% 
     subset(results.candidate %in% state_path)
   
   return(state_data)
+}
+
+# Aggregates data from all 50 states for even numbered year campaign_cycle 
+# and returns a dataframe. 
+aggStateData <- function(campaign_cycle) {
+  agg_data <- getStateData(state.abb[1])
+  
+  for (i in 2:length(state.abb)) {
+    temp_frame <- getStateData(state.abb[i])
+    state_data <- rbind(state_data, temp_frame)
+  }
+  
+  return(agg_data)
 }
