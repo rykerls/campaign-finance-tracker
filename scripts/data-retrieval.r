@@ -26,8 +26,11 @@ candidate_ids <- c('P60007168',
                    'P80001571',
                    'P60006111')
 
+# Presidential election years that are currently supported by the API.
 campaign_cycles <- c('2000', '2004', '2008', '2012')
 
+# List of the presidential nominees (democratic and republican)
+# for each campaign cycle from 2000-present.
 id_per_cycle <- list(
   ids_2000 <- list('P00003335', 'P80000912'),
   ids_2004 <- list('P00003335', 'P80000235'),
@@ -130,6 +133,9 @@ getStateData <- function(campaign_cycle, state_abb) {
   return(state_data)
 }
 
+# Returns a data frame compiling data from each id for a given campaign_cycle.
+# Pass id_per_cycle as id and campaign_cycles as campaign_cycle to get data 
+# on pre-selected candidates from 2000-present.
 aggCandidateData <- function(id, campaign_cycle ) {
   
   cycle_index <- 1
