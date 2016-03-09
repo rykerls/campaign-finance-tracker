@@ -4,7 +4,57 @@ require(dplyr)
 source('../scripts/data-retrieval.r')
 source('../scripts/utility.r')
 
-contribution_bar_chart <- function(id) {
+contribution_bar_chart <- function(id, stack = FALSE) {
+  candidate_data <- .get_candidate_info(id[1])
+  
+  if (!stack) {
+    if (candidate_data$party == 'D') {
+      bar_color <- toRGB('blue')
+    } else if (candidate_data$party == 'R') {
+      bar_color <- toRGB('red')
+    }
+  } else {
+    bar_color <- NULL
+  }
+  
+  
+  if (stack) {
+    chart_name <- 'Candidate Comparison'
+  } else {
+    chart_name <- candidate_data$name
+  }
+  
+  bar_chart <- candidate_data$candidate %>% 
+    plot_ly(type = 'bar', 
+            x = prettify_results(colnames(candidate_data$candidate)), 
+            y = as.numeric(candidate_data$candidate[1,]),
+            marker = list(
+              color = bar_color
+            ),
+            name = candidate_data$name) %>% 
+    layout(title = chart_name,
+           xaxis = list(
+             title = 'Category'
+           ),
+           yaxis = list(
+             title = 'Contribution Amount (USD)'
+           ))
+  
+  if (stack) {
+    sapply(candidate_ids[2:length(candidate_ids)], .stack_bars)
+  }
+  
+  return(last_plot())
+}
+
+.stack_bars <- function(id) {
+    candidate_info <- .get_candidate_info(id)
+    add_trace(p = last_plot(),
+              y = as.numeric(candidate_info$candidate[1,]),
+              name = candidate_info$name)
+}
+
+.get_candidate_info <- function(id) {
   campaign <- getCampaignData('2016', '2016-03-05', candidate_ids) %>% 
     filter(results.candidate_id == id)
   
@@ -12,7 +62,7 @@ contribution_bar_chart <- function(id) {
     filter(results.id == id)
   
   joined <- left_join(candidate, campaign, by = c('results.id' = 'results.candidate_id', 'cycle'))
-    
+  
   selected_columns <- joined %>% 
     select(results.total_receipts.x, 
            results.total_disbursements.x,
@@ -20,26 +70,11 @@ contribution_bar_chart <- function(id) {
            results.total_from_individuals,
            results.total_from_pacs)
   
-  bar_color <- NULL
-  if (campaign$results.party == 'D') {
-    bar_color <- toRGB('blue')
-  } else if (campaign$results.party == 'R') {
-    bar_color <- toRGB('red')
-  }
+  data <- list(
+    name = campaign$results.name,
+    candidate = selected_columns,
+    party = campaign$results.party
+  )
   
-  selected_columns %>% 
-    plot_ly(type = 'bar', 
-            x = prettify_results(colnames(selected_columns)), 
-            y = as.numeric(selected_columns[1,]),
-            marker = list(
-              color = bar_color
-            )) %>% 
-    layout(title = campaign$results.name,
-           xaxis = list(
-             title = 'Category'
-           ),
-           yaxis = list(
-             title = 'Contribution Amount (USD)'
-           )) %>% 
-    return()
+    return(data)
 }
