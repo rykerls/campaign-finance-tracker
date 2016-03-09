@@ -4,7 +4,7 @@ require(dplyr)
 source('../scripts/data-retrieval.r')
 source('../scripts/utility.r')
 
-<<<<<<< HEAD
+
 contribution_bar_chart <- function(id, stack = FALSE) {
   candidate_data <- .get_candidate_info(id[1])
   
