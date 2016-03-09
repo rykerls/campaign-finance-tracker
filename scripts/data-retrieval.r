@@ -26,6 +26,8 @@ candidate_ids <- c('P60007168',
                    'P80001571',
                    'P60006111')
 
+campaign_cycles <- c('2016')
+
 # Come up with a better means to create this list....
 state_path <- c('/candidates/P60007168.json',
                 '/candidates/P00003392.json',
@@ -42,7 +44,7 @@ queryCandidateData <- function(id) {
           flatten()
   df <- data.frame(lapply(data, as.character), stringsAsFactors = FALSE)
   
-  file_addr <- paste0('data/', Sys.Date(), '_', id, '.csv')
+  file_addr <- paste0('../data/', id, '.csv')
   write.csv(df, file_addr)
   
 }
@@ -57,7 +59,7 @@ queryCampaignData <- function(campaign_cycle) {
     flatten()
   df <- data.frame(lapply(data, as.character), stringsAsFactors = FALSE)
   
-  file_addr <- paste0('data/', 'totals_', campaign_cycle, '-', Sys.Date(), '.csv')
+  file_addr <- paste0('../data/', 'totals_', campaign_cycle, '.csv')
   write.csv(df, file_addr)
   
 }
@@ -72,20 +74,20 @@ queryStateData <- function(campaign_cycle, state) {
     flatten()
   df <- data.frame(lapply(data, as.character), stringsAsFactors = FALSE)
   
-  file_addr <- paste0('data/', 'state', '_', state, '_', campaign_cycle, '-', Sys.Date(), '.csv')
+  file_addr <- paste0('../data/', state, '_', campaign_cycle, '.csv')
   write.csv(df, file_addr)
   
 }
 
 # Don't use this funciton, use getCampaignData instead. 
-getCandidateData <- function(date) {
+getCandidateData <- function(candidate_list) {
   
-  file <- paste0('../data/', date, '_', candidate_ids[1], '.csv')
-  candidate_data <- read.csv(file)
+  file_addr <- paste0('../data/', candidate_list[1], '.csv')
+  candidate_data <- read.csv(file_addr)
   
-  for (i in 2:length(candidate_ids)) {
-    file <- paste0('../data/', date, '_', candidate_ids[i], '.csv')
-    temp_frame <- read.csv(file)
+  for (i in 2:length(candidate_list)) {
+    file_addr <- paste0('../data/', candidate_list[i], '.csv')
+    temp_frame <- read.csv(file_addr)
     candidate_data <- rbind(candidate_data, temp_frame)
   }
   
@@ -94,23 +96,23 @@ getCandidateData <- function(date) {
 
 # Returns a data frame from campaign_cylce, queried on data (in Sys.Date() form),
 # containing data about the presidential candidates in cand_ids.
-getCampaignData <- function(campaign_cycle, date, cand_ids) {
+getCampaignData <- function(campaign_cycle, cand_ids) {
  
-  file <- paste0('../data/', 'totals_', campaign_cycle, '-', date, '.csv')
+  file_addr <- paste0('../data/', 'totals_', campaign_cycle, '.csv')
   
-  campaign_data <- read.csv(file) %>% 
-  subset(results.candidate_id %in% cand_ids)
+  campaign_data <- read.csv(file_addr) %>% 
+    subset(results.candidate_id %in% cand_ids)
   
   return(campaign_data)
 }
 
 # Returns a data frame with information on canidates in candidate_ids
 # for state.
-getStateData <- function(campaign_cycle, date, state) {
+getStateData <- function(campaign_cycle, state) {
   
-  file <- paste0('../data/', 'state', '_', state, '_', campaign_cycle, '-', date, '.csv')
+  file_addr <- paste0('../data/', state, '_', campaign_cycle, '-', '.csv')
   
-  state_data <- read.csv(file) %>% 
+  state_data <- read.csv(file_addr) %>% 
     subset(results.candidate %in% state_path)
   
   return(state_data)

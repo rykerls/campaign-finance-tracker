@@ -4,6 +4,7 @@ require(dplyr)
 source('../scripts/data-retrieval.r')
 source('../scripts/utility.r')
 
+<<<<<<< HEAD
 contribution_bar_chart <- function(id, stack = FALSE) {
   candidate_data <- .get_candidate_info(id[1])
   
@@ -55,10 +56,10 @@ contribution_bar_chart <- function(id, stack = FALSE) {
 }
 
 .get_candidate_info <- function(id) {
-  campaign <- getCampaignData('2016', '2016-03-05', candidate_ids) %>% 
+  campaign <- getCampaignData('2016', candidate_ids) %>% 
     filter(results.candidate_id == id)
   
-  candidate <- getCandidateData('2016-03-04') %>% 
+  candidate <- getCandidateData(candidate_ids) %>% 
     filter(results.id == id)
   
   joined <- left_join(candidate, campaign, by = c('results.id' = 'results.candidate_id', 'cycle'))
