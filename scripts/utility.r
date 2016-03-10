@@ -1,6 +1,6 @@
 #Use this file for any utility functions that might be useful throughout the project.
 
-
+#Takes in a string and capitalizes the first letter of every word
 .simpleCap <- function(x) {
   s <- strsplit(x, " ")[[1]]
   paste(toupper(substring(s, 1, 1)), substring(s, 2),
