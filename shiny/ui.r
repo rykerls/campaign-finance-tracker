@@ -9,27 +9,17 @@ shinyUI(
     titlePanel("United States Campaign Finance Tracker"),
   
     sidebarPanel(
-      
+      selectInput('select_candidate', 'Candidate', c(
+        'Bernie Sanders' = candidate_ids[1],
+        'Hillary Clinton' = candidate_ids[2],
+        'Donald J. Trump' = candidate_ids[3],
+        'Ted Cruz' = candidate_ids[4]
+      ))
     ),
   
     mainPanel(
-      tabsetPanel(
-        tabPanel('Bernie Sanders',
-                 plotlyOutput('plot1')
-                 ),
-        tabPanel('Hillary Clinton',
-                 plotlyOutput('plot2')
-                 ),
-        tabPanel('Donald J. Trump',
-                 plotlyOutput('plot3')
-                 ),
-        tabPanel('Ted Cruz',
-                 plotlyOutput('plot4')
-                 ),
-        tabPanel('Overview Data?',
-                 plotlyOutput('combined_bar')
-                 )
-      )
+      plotlyOutput('bar_chart'),
+      plotlyOutput('map')
     )
   )
 )

@@ -3,25 +3,14 @@ library(plotly)
 
 source('../scripts/data-retrieval.r')
 source('../scripts/contributions-bar-chart.r')
+source('../scripts/donations-map.r')
 
 function(input, output) {
-  output$plot1 <- renderPlotly({
-    contribution_bar_chart(candidate_ids[1])
+  output$bar_chart <- renderPlotly({
+    contribution_bar_chart(input$select_candidate)
   })
   
-  output$plot2 <- renderPlotly({
-    contribution_bar_chart(candidate_ids[2])
-  })
-  
-  output$plot3 <- renderPlotly({
-    contribution_bar_chart(candidate_ids[3])
-  })
-  
-  output$plot4 <- renderPlotly({
-    contribution_bar_chart(candidate_ids[4])
-  })
-  
-  output$combined_bar <- renderPlotly({
-    contribution_bar_chart(candidate_ids, stack = TRUE)
+  output$map <- renderPlotly({
+    donationMap(input$select_candidate)
   })
 }
