@@ -22,6 +22,6 @@ function(input, output) {
   })
   
   output$writeup <- renderUI({
-    includeText(get_candidate_writeup(input$select_candidate))
+    includeHTML(get_candidate_writeup(input$select_candidate))
   })
 }

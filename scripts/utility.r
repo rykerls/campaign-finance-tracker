@@ -17,5 +17,5 @@ prettify_results <- function(categories) {
 }
 
 get_candidate_writeup <- function(id) {
-  return(paste0('text/', id, '.txt'))
+  return(paste0('text/', id, '.html'))
 }
