@@ -6,7 +6,7 @@ source('../scripts/data-retrieval.r')
 shinyUI(
   fluidPage(
   
-    titlePanel("United States Campaign Finance Tracker"),
+    titlePanel("2016 Presidential Campaign Finance Tracker"),
   
     sidebarPanel(
       selectInput('select_candidate', 'Candidate', c(
