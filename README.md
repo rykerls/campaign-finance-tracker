@@ -2,6 +2,7 @@
 
 The Campaign Finance Tracker leverges data sourced from the Propublica Campaign Finanace API (<http://propublica.github.io/campaign-finance-api-docs/#campaign-finance-api-documentation>), and focuses (for now) on the candidates running in the 2016 Presidential Election. Where politicians are receiving the money that funds their expensive election campaigns, and how that money will influence their policy when elected has become an issue of great importance for voters. Using this app you will be able to view basic statistics on the fundraising of each candidates campaign, a state by state breakdown of fundraising to date, and a breakdown of the candidates donations by donation level.
 
+
 If you'd like to contribute or fork this project, read below.
 
 #Getting Started 
