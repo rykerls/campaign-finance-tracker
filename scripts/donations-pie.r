@@ -16,7 +16,7 @@ library(dplyr)
 library(plotly)
 
 #Load in dataset
-info<- read.csv("data/totals_2016.csv")
+info <- aggCampaignData('2016', candidate_ids)
 
 
 
@@ -24,7 +24,7 @@ info<- read.csv("data/totals_2016.csv")
 contribution_piechart <- function(candidateId) {
   
   #Filtering to desired candidate
-  candidate_info<- filter(info, results.candidate_id == candidateId)
+  candidate_info <- filter(info, results.candidate_id == candidateId)
   
   #Formating data for pie chart
   ds <- data.frame(labels = c("Less than Two hundred", "Between Two hundred to Five hundred", "Between Five hundred to Fifteen hundred", "Between Fifteen hundred to Twenty Seven hundred"),
@@ -32,7 +32,7 @@ contribution_piechart <- function(candidateId) {
                   candidate_info$results.contributions_500_1499[1], candidate_info$results.contributions_1500_2699[1]))
   
   #Creating pie chart
-  piechart<- plot_ly(ds, labels = labels, values = values, type = "pie") %>% 
+  piechart <- plot_ly(ds, labels = labels, values = values, type = "pie") %>% 
     layout(title = "Pie Chart of Contributions given to Candidate")
 
 
