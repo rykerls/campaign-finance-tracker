@@ -19,7 +19,8 @@ shinyUI(
   
     mainPanel(
       plotlyOutput('bar_chart'),
-      plotlyOutput('map')
+      plotlyOutput('map'),
+      plotlyOutput('pie')
     )
   )
 )
