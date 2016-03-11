@@ -19,6 +19,9 @@ options(stringsAsFactors = FALSE)
 
 base_url <- 'https://api.propublica.org/campaign-finance/v1/'
 
+## Add your API key below
+api_key <- ''
+
 # FEC ID's for some of the current candidates. Add to this list to begin
 # collecting data on a new candidate.
 candidate_ids <- c('P60007168',
@@ -38,18 +41,12 @@ id_per_cycle <- list(
   ids_2012 <- list('P80003338', 'P80003353')
 )
 
-# Come up with a better means to create this list....
-state_path <- c('/candidates/P60007168.json',
-                '/candidates/P00003392.json',
-                '/candidates/P80001571.json',
-                '/candidates/P60006111.json')
-
 # Takes an FEC ID in, polls Propublica API for current data and writes 
 # to a .csv file in the data/ directory.
 queryCandidateData <- function(id, campaign_cycle) {
   
   query <- paste0(base_url, campaign_cycle, '/candidates/', id, '.json')
-  response <- GET(query, add_headers('X-API-Key' = '6PV7DzVbl5ji6l3hAYPh3ElWARo5E9I78KMvfTJi'))
+  response <- GET(query, add_headers('X-API-Key' = api_key))
   data <- as.data.frame(fromJSON(content(response, type='text', encoding = 'UTF-8'))) %>% 
           flatten()
   df <- data.frame(lapply(data, as.character), stringsAsFactors = FALSE)
@@ -64,7 +61,7 @@ queryCandidateData <- function(id, campaign_cycle) {
 queryCampaignData <- function(campaign_cycle) {
   
   query <- paste0(base_url, campaign_cycle, '/president/totals.json')
-  response <- GET(query, add_headers('X-API-Key' = '6PV7DzVbl5ji6l3hAYPh3ElWARo5E9I78KMvfTJi'))
+  response <- GET(query, add_headers('X-API-Key' = api_key))
   data <- as.data.frame(fromJSON(content(response, type='text', encoding = 'UTF-8'))) %>% 
     flatten()
   df <- data.frame(lapply(data, as.character), stringsAsFactors = FALSE)
@@ -79,7 +76,7 @@ queryCampaignData <- function(campaign_cycle) {
 queryStateData <- function(campaign_cycle, state) {
   
   query <- paste0(base_url, campaign_cycle, '/president/states/', state, '.json')
-  response <- GET(query, add_headers('X-API-Key' = '6PV7DzVbl5ji6l3hAYPh3ElWARo5E9I78KMvfTJi'))
+  response <- GET(query, add_headers('X-API-Key' = api_key))
   data <- as.data.frame(fromJSON(content(response, type='text', encoding = 'UTF-8'))) %>% 
     flatten()
   df <- data.frame(lapply(data, as.character), stringsAsFactors = FALSE)
@@ -97,9 +94,7 @@ getCandidateData <- function(candidate_list, campaign_cycle) {
   candidate_data <- read.csv(file_addr)
   
   if (length(candidate_list) > 1) {
-    
     for (i in 2:length(candidate_list)) {
-      
       file_addr <- paste0('data/', candidate_list[i], '_', campaign_cycle, '.csv')
       temp_frame <- read.csv(file_addr)
       candidate_data <- rbind(candidate_data, temp_frame)
@@ -114,7 +109,6 @@ getCandidateData <- function(candidate_list, campaign_cycle) {
 getCampaignData <- function(campaign_cycle, cand_ids) {
  
   file_addr <- paste0('data/', 'totals_', campaign_cycle, '.csv')
-  
   campaign_data <- read.csv(file_addr) %>% 
     subset(results.candidate_id %in% cand_ids)
   
@@ -126,7 +120,6 @@ getCampaignData <- function(campaign_cycle, cand_ids) {
 getStateData <- function(campaign_cycle, state_abb) {
   
   file_addr <- paste0('data/', state_abb, '_', campaign_cycle, '.csv')
-  
   state_data <- read.csv(file_addr) %>% 
     subset(results.candidate %in% state_path)
   
@@ -141,9 +134,7 @@ aggCandidateData <- function(id, campaign_cycle ) {
   cycle_index <- 1
   all_ids <- unlist(id_per_cycle)
   agg_cand <- getCandidateData(all_ids[1], campaign_cycle[cycle_index])
-  
   for (i in 2:length(all_ids)) {
-    
     temp <- getCandidateData(all_ids[i], campaign_cycle[cycle_index])
     agg_cand <- rbind(agg_cand, temp)
     
@@ -159,8 +150,8 @@ aggCandidateData <- function(id, campaign_cycle ) {
 # Aggregates data from all 50 states for even numbered year campaign_cycle 
 # and returns it as a dataframe. 
 aggStateData <- function(campaign_cycle) {
-  agg_data <- getStateData(campaign_cycle, state.abb[1])
   
+  agg_data <- getStateData(campaign_cycle, state.abb[1])
   for (i in 2:length(state.abb)) {
     temp_frame <- getStateData(campaign_cycle, state.abb[i])
     agg_data <- rbind(agg_data, temp_frame)
