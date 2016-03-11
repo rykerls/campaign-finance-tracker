@@ -91,34 +91,31 @@ queryStateData <- function(campaign_cycle, state) {
   
 }
 
-# Returns a data frame compiling data from each id for a given campaign_cycle.
-# Pass id_per_cycle as id and campaign_cycles as campaign_cycle to get data 
-# on pre-selected candidates from 2000-present.
-aggCandidateData <- function(id, campaign_cycle ) {
+# Returns a data frame containing data about candidates in candidate_list
+# from campaign_cycle.
+getCandidateData <- function(candidate_list, campaign_cycle) {
   
-  cycle_index <- 1
-  all_ids <- unlist(id_per_cycle)
-  agg_cand <- getCandidateData(all_ids[1], campaign_cycle[cycle_index])
-  for (i in 2:length(all_ids)) {
-    temp <- getCandidateData(all_ids[i], campaign_cycle[cycle_index])
-    agg_cand <- rbind(agg_cand, temp)
-    
-    if (i %% 2 == 0) {
-      cycle_index <- cycle_index + 1
+  file_addr <- paste0('data/', candidate_list[1], '_', campaign_cycle, '.csv')
+  candidate_data <- read.csv(file_addr)
+  
+  if (length(candidate_list) > 1) {
+    for (i in 2:length(candidate_list)) {
+      file_addr <- paste0('data/', candidate_list[i], '_', campaign_cycle, '.csv')
+      temp_frame <- read.csv(file_addr)
+      candidate_data <- rbind(candidate_data, temp_frame)
     }
-    
   }
   
-  return(agg_cand)
+  return(candidate_data)
 }
 
 # Returns a data frame from campaign_cylce, queried on data (in Sys.Date() form),
 # containing data about the presidential candidates in cand_ids.
-aggCampaignData <- function(campaign_cycle, cand_ids) {
+aggCampaignData <- function(campaign_cycle, candidate_list) {
   
   file_addr <- paste0('data/', 'totals_', campaign_cycle, '.csv')
   campaign_data <- read.csv(file_addr) %>% 
-    subset(results.candidate_id %in% cand_ids)
+    subset(results.candidate_id %in% candidate_list)
   
   return(campaign_data)
 }
@@ -134,24 +131,6 @@ aggStateData <- function(campaign_cycle) {
   }
   
   return(agg_data)
-}
-
-# Returns a data frame containing data about candidates in candidate_list
-# from 2016.
-getCandidateData <- function(candidate_list, campaign_cycle) {
-  
-  file_addr <- paste0('data/', candidate_list[1], '_', campaign_cycle, '.csv')
-  candidate_data <- read.csv(file_addr)
-  
-  if (length(candidate_list) > 1) {
-    for (i in 2:length(candidate_list)) {
-      file_addr <- paste0('data/', candidate_list[i], '_', campaign_cycle, '.csv')
-      temp_frame <- read.csv(file_addr)
-      candidate_data <- rbind(candidate_data, temp_frame)
-    }
-  }
-  
-  return(candidate_data)
 }
 
 # Returns a data frame with information on canidates in candidate_ids
