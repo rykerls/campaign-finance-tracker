@@ -14,7 +14,7 @@ library(plotly)
 library(dplyr)
 
 #Loading needed function and setting global settings.
-source('../scripts/data-retrieval.r')
+source('scripts/data-retrieval.r')
 options(stringsAsFactors = FALSE)
 
 #Pulling Data

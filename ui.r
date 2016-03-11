@@ -1,7 +1,7 @@
 library(shiny)
 library(plotly)
 
-source('../scripts/data-retrieval.r')
+source('scripts/data-retrieval.r')
 
 shinyUI(
   fluidPage(
