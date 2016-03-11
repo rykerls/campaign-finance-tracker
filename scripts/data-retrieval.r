@@ -54,7 +54,7 @@ queryCandidateData <- function(id, campaign_cycle) {
           flatten()
   df <- data.frame(lapply(data, as.character), stringsAsFactors = FALSE)
   
-  file_addr <- paste0('../data/', id, '_', campaign_cycle, '.csv')
+  file_addr <- paste0('data/', id, '_', campaign_cycle, '.csv')
   write.csv(df, file_addr)
   
 }
@@ -69,7 +69,7 @@ queryCampaignData <- function(campaign_cycle) {
     flatten()
   df <- data.frame(lapply(data, as.character), stringsAsFactors = FALSE)
   
-  file_addr <- paste0('../data/', 'totals_', campaign_cycle, '.csv')
+  file_addr <- paste0('data/', 'totals_', campaign_cycle, '.csv')
   write.csv(df, file_addr)
   
 }
@@ -84,7 +84,7 @@ queryStateData <- function(campaign_cycle, state) {
     flatten()
   df <- data.frame(lapply(data, as.character), stringsAsFactors = FALSE)
   
-  file_addr <- paste0('../data/', state, '_', campaign_cycle, '.csv')
+  file_addr <- paste0('data/', state, '_', campaign_cycle, '.csv')
   write.csv(df, file_addr)
   
 }
@@ -93,14 +93,14 @@ queryStateData <- function(campaign_cycle, state) {
 # from 2016.
 getCandidateData <- function(candidate_list, campaign_cycle) {
   
-  file_addr <- paste0('../data/', candidate_list[1], '_', campaign_cycle, '.csv')
+  file_addr <- paste0('data/', candidate_list[1], '_', campaign_cycle, '.csv')
   candidate_data <- read.csv(file_addr)
   
   if (length(candidate_list) > 1) {
     
     for (i in 2:length(candidate_list)) {
       
-      file_addr <- paste0('../data/', candidate_list[i], '_', campaign_cycle, '.csv')
+      file_addr <- paste0('data/', candidate_list[i], '_', campaign_cycle, '.csv')
       temp_frame <- read.csv(file_addr)
       candidate_data <- rbind(candidate_data, temp_frame)
     }
@@ -113,7 +113,7 @@ getCandidateData <- function(candidate_list, campaign_cycle) {
 # containing data about the presidential candidates in cand_ids.
 getCampaignData <- function(campaign_cycle, cand_ids) {
  
-  file_addr <- paste0('../data/', 'totals_', campaign_cycle, '.csv')
+  file_addr <- paste0('data/', 'totals_', campaign_cycle, '.csv')
   
   campaign_data <- read.csv(file_addr) %>% 
     subset(results.candidate_id %in% cand_ids)
@@ -125,7 +125,7 @@ getCampaignData <- function(campaign_cycle, cand_ids) {
 # for state_abb. state_abb must be an all-uppercase two letter state code.
 getStateData <- function(campaign_cycle, state_abb) {
   
-  file_addr <- paste0('../data/', state_abb, '_', campaign_cycle, '.csv')
+  file_addr <- paste0('data/', state_abb, '_', campaign_cycle, '.csv')
   
   state_data <- read.csv(file_addr) %>% 
     subset(results.candidate %in% state_path)

@@ -1,8 +1,8 @@
 require(plotly)
 require(dplyr)
 
-source('../scripts/data-retrieval.r')
-source('../scripts/utility.r')
+source('scripts/data-retrieval.r')
+source('scripts/utility.r')
 
 #Creates a bar chart showing the spending and receiving of given political 
 #candidates. id is their FEC id, this can be a vector of as many ids as you 
