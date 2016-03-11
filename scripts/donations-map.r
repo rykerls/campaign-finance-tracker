@@ -29,17 +29,17 @@ g <- list(
 )
 
 #This function returns the plotly choropleth of the given canidates donation data by state.
-donationMap <- function(canidate_name) {
+donationMap <- function(id) {
   
   #Filtering Data to that of the specified canidate
-  canidateData <- filter(aggData, results.full_name == canidate_name)
+  canidateData <- filter(aggData, gsub('(/candidates/)|(.json)', '', aggData$results.candidate) == id)
   #Creating the hover-over text
   hover = with(canidateData, paste(results.full_name,'<br>',results.state, '<br>', 'Donations: ', results.total, '<br>', '# of Donations ', results.contribution_count))
   
   #Creating the plotly map
   p <- plot_ly(canidateData, z = results.total, text = hover, locations = results.state,
               type = 'choropleth', locationmode = 'USA-states', color = results.total,
-              colors = mapColors(canidate_name), colorbar = list(title = 'USD')) %>% 
+              colors = mapColors(canidateData$results.full_name), colorbar = list(title = 'USD')) %>% 
     layout(title = '2016 Election Donations by State', geo = g)
   return(p)    
 }
