@@ -27,10 +27,9 @@ contribution_piechart <- function(candidateId) {
   candidate_info<- filter(info, results.candidate_id == candidateId)
   
   #Formating data for pie chart
-  ds <- data.frame(labels = c("Less than Two hundred", "Between Two hundred to Five hundred", "Between Five hundred to Fifteen hundred", "Between Fifteen hundred to Twenty Seven hundred", "Largest Contribution"),
+  ds <- data.frame(labels = c("Less than Two hundred", "Between Two hundred to Five hundred", "Between Five hundred to Fifteen hundred", "Between Fifteen hundred to Twenty Seven hundred"),
                  values = c(candidate_info$results.contributions_less_than_200[1], candidate_info$results.contributions_200_499[1], 
-                  candidate_info$results.contributions_500_1499[1], candidate_info$results.contributions_1500_2699[1],
-                  candidate_info$results.contributions_max[1]))
+                  candidate_info$results.contributions_500_1499[1], candidate_info$results.contributions_1500_2699[1]))
   
   #Creating pie chart
   piechart<- plot_ly(ds, labels = labels, values = values, type = "pie") %>% 
