@@ -64,7 +64,7 @@ contribution_bar_chart <- function(id, stack = FALSE) {
 #Concatenate the relevant information from multiple sources.
 #Returns a list containing the relevant information
 .get_candidate_info <- function(id) {
-  campaign <- getCampaignData('2016', candidate_ids) %>% 
+  campaign <- aggCampaignData('2016', candidate_ids) %>% 
     filter(results.candidate_id == id)
   
   candidate <- getCandidateData(candidate_ids, '2016') %>% 

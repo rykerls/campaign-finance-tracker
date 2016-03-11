@@ -14,12 +14,15 @@ shinyUI(
         'Hillary Clinton' = candidate_ids[2],
         'Donald J. Trump' = candidate_ids[3],
         'Ted Cruz' = candidate_ids[4]
-      ))
+      )),
+      uiOutput('writeup')
     ),
   
     mainPanel(
       plotlyOutput('bar_chart'),
+      br(),
       plotlyOutput('map'),
+      br(),
       plotlyOutput('pie')
     )
   )

@@ -33,7 +33,7 @@ contribution_piechart <- function(candidateId) {
   
   #Creating pie chart
   piechart <- plot_ly(ds, labels = labels, values = values, type = "pie") %>% 
-    layout(title = "Pie Chart of Contributions given to Candidate")
+    layout(title = "Contributions given to Candidate")
 
 
   return(piechart)

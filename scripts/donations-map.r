@@ -50,7 +50,7 @@ mapColors <- function(colorString) {
   if (colorString == 'Bernie Sanders' || colorString == 'Hillary Clinton') {
     c <- 'Blues'
   } else {
-    c <- 'RdBu'
+    c <- 'Reds'
   }
   
   return(c)

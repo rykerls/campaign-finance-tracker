@@ -15,3 +15,7 @@ prettify_results <- function(categories) {
   categories <- as.vector(sapply(categories, .simpleCap))
   return(categories)
 }
+
+get_candidate_writeup <- function(id) {
+  return(paste0('text/', id, '.txt'))
+}
