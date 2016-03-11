@@ -41,6 +41,11 @@ id_per_cycle <- list(
   ids_2012 <- list('P80003338', 'P80003353')
 )
 
+state_path <- c('/candidates/P60007168.json',
+                '/candidates/P00003392.json',
+                '/candidates/P80001571.json',
+                '/candidates/P60006111.json')
+
 # Takes an FEC ID in, polls Propublica API for current data and writes 
 # to a .csv file in the data/ directory.
 queryCandidateData <- function(id, campaign_cycle) {
