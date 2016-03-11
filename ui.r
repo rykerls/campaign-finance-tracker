@@ -5,7 +5,7 @@ source('scripts/data-retrieval.r')
 
 shinyUI(
   fluidPage(
-  
+    tags$head(tags$script(src='https://pixel.propublica.org/pixel.js')),
     titlePanel("2016 Presidential Campaign Finance Tracker"),
   
     sidebarPanel(
@@ -23,7 +23,8 @@ shinyUI(
       br(),
       plotlyOutput('map'),
       br(),
-      plotlyOutput('pie')
+      plotlyOutput('pie'),
+      a('Data by ProPublica', href = 'https://www.propublica.org/data/')
     )
   )
 )
